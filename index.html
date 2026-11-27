@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royal Click Studio Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a0b1f;--bg2:#2a1233;--card:#291433;--ink:#fff4e6;--mute:#c4a9cc;--line:#4a2a57;--gold:#ffb627;--pink:#ff3d81;--green:#9be15d;--teal:#2dd4bf;--violet:#a78bfa;--r:18px}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:16px/1.5 'Nunito',system-ui,sans-serif;background:radial-gradient(900px 500px at 85% -10%,#5a1b5e55,transparent),radial-gradient(700px 400px at -10% 30%,#ff3d8122,transparent),var(--bg);min-height:100vh}
+h1,h2,h3{font-family:'Rozha One',serif;margin:0;font-weight:400}
+.bunting{height:34px;background:linear-gradient(135deg,var(--pink) 25%,transparent 25%) 0 0/34px 34px,linear-gradient(225deg,var(--gold) 25%,transparent 25%) 17px 0/34px 34px,linear-gradient(135deg,var(--green) 25%,transparent 25%) 34px 0/102px 34px,linear-gradient(225deg,var(--teal) 25%,transparent 25%) 51px 0/102px 34px;opacity:.9;-webkit-mask:linear-gradient(#000,#000 70%,transparent);mask:linear-gradient(#000,#000 70%,transparent)}
+.wrap{max-width:1040px;margin:0 auto;padding:10px 16px 40px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:6px 0 16px}
+h1{font-size:2rem;line-height:1.05;background:linear-gradient(90deg,var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 small{display:block;font:700 .85rem 'Nunito';color:var(--mute);-webkit-text-fill-color:var(--mute);margin-top:4px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button,input,select,textarea{font:inherit;color:inherit}
+.btn{background:linear-gradient(135deg,var(--pink),#ff7a45);color:#fff;border:0;border-radius:99px;padding:10px 18px;cursor:pointer;font-weight:800;box-shadow:0 6px 18px #ff3d8140;transition:transform .15s}
+.btn:active{transform:scale(.95)}
+.btn.ghost{background:#ffffff10;color:var(--ink);box-shadow:none;border:1px solid var(--line)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#ffd36b);color:#2a1500;box-shadow:0 6px 18px #ffb62740}
+.btn.danger{background:transparent;color:#ff7d9f;border:1px solid #ff7d9f;box-shadow:none}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.day:focus-visible,.ev:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.pill{font-size:.8rem;padding:5px 12px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
+.pill.ok{color:var(--green);border-color:var(--green)}.pill.err{color:#ff7d9f;border-color:#ff7d9f}
+.alert{background:linear-gradient(90deg,var(--gold),#ffd36b);color:#2a1500;border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-weight:800}
+.alert div+div{margin-top:4px}
+.hero{display:flex;align-items:center;gap:18px;border-radius:24px;padding:20px 22px;margin-bottom:16px;background:linear-gradient(120deg,#ff3d81 0%,#a63ad6 60%,#5b3dd6 100%);box-shadow:0 14px 40px #a63ad640;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;border:26px solid #ffffff18}
+.hero .num{font:400 3.4rem/1 'Rozha One',serif;min-width:96px;text-align:center}
+.hero .num small{display:block;font:800 .8rem 'Nunito';opacity:.85}
+.hero h2{font-size:1.5rem}.hero p{margin:4px 0 0;opacity:.9}
+.hero .em{font-size:2.4rem;margin-left:auto;position:relative;z-index:1}
+.grid{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.hero .num{font-size:2.6rem;min-width:76px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:0 10px 30px #0004}
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cal-h h2{font-size:1.5rem}
+.dow,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.dow span{text-align:center;font-size:.8rem;font-weight:800;color:var(--gold);padding:4px 0}
+.day{min-height:64px;border:1px solid transparent;border-radius:14px;padding:5px 6px;cursor:pointer;background:#ffffff0a;text-align:left;display:flex;flex-direction:column;gap:1px;overflow:hidden;transition:background .15s,transform .15s}
+.day:hover{background:#ffffff1c;transform:translateY(-2px)}
+.day.out{opacity:.3}
+.day.today{border-color:var(--gold)}
+.day.sel{background:linear-gradient(160deg,#ff3d8155,#a63ad655);border-color:var(--pink)}
+.day.has{background:#ffb62718}
+.day b{font-size:.85rem}
+.tag{font-size:1.05rem;line-height:1.1}
+.tag.more{font-size:.7rem;font-weight:800;color:var(--mute)}
+.ev{border-radius:16px;padding:12px 14px 12px 16px;margin-top:10px;cursor:pointer;background:#ffffff0c;border-left:6px solid var(--mute);transition:transform .15s,background .15s}
+.ev:hover{background:#ffffff18;transform:translateX(3px)}
+.c-Mehndi{border-color:var(--green)}.c-Haldi{border-color:var(--gold)}.c-Barat{border-color:var(--pink)}.c-Walima{border-color:var(--violet)}.c-Nikah{border-color:var(--teal)}
+.ev h3{font-size:1.1rem}
+.ev small{color:var(--mute)}
+.cd{float:right;font-weight:800;color:var(--gold);font-size:.85rem;background:#ffb62720;border-radius:99px;padding:1px 10px}
+.empty{color:var(--mute);padding:14px 0}
+.sec{font:800 .95rem 'Nunito';color:var(--gold);margin:14px 0 0}
+dialog{border:1px solid var(--line);border-radius:24px;padding:0;max-width:560px;width:calc(100% - 24px);background:var(--bg2);color:var(--ink);max-height:92vh}
+dialog::backdrop{background:rgba(10,0,14,.7);backdrop-filter:blur(4px)}
+form{padding:18px;display:grid;gap:10px}
+form h2{font-size:1.6rem}
+label{font-size:.85rem;font-weight:700;color:var(--mute);display:grid;gap:3px}
+input,select,textarea{background:#ffffff10;border:1px solid var(--line);border-radius:12px;padding:10px;color-scheme:dark}
+select option{background:#2a1233}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gear{display:flex;align-items:center;gap:8px;padding:3px 0}
+.gear input[type=checkbox]{width:20px;height:20px;accent-color:var(--pink)}
+.gear.done span{text-decoration:line-through;color:var(--mute)}
+.gear span{flex:1}
+.x{background:none;border:0;color:#ff7d9f;cursor:pointer;font-size:1.2rem}
+.help{font-size:.85rem;color:var(--mute);margin:0}
+.help code{background:#ffffff14;padding:1px 6px;border-radius:6px}
+.xbox{border:1px solid var(--line);border-radius:14px;padding:8px;margin-top:8px;background:#ffffff08}.xbox .xrow{margin-top:0}.xbox details{margin-top:6px}.xbox summary{cursor:pointer;font-size:.85rem;color:var(--gold);font-weight:700}
+.xrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.xrow select,.xrow input{flex:1 1 110px;min-width:0}
+.pop{position:fixed;top:-30px;font-size:1.6rem;pointer-events:none;z-index:99;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.2}}
+@media(prefers-reduced-motion:reduce){.pop{display:none}.day,.ev,.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="bunting" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <h1>Royal Click Studio Events<small>Mehndi se Walima tak, sab yahan</small></h1>
+    <div class="row">
+      <span id="sync" class="pill">Local only</span>
+      <button class="btn ghost" id="bell">Reminders on</button>
+      <button class="btn ghost" id="setBtn">GitHub</button>
+      <button class="btn gold" id="addBtn">+ New event</button>
+    </div>
+  </header>
+
+  <div id="alerts"></div>
+  <div id="hero"></div>
+
+  <div class="grid">
+    <section class="card" aria-label="Calendar">
+      <div class="cal-h">
+        <button class="btn ghost" id="prev" aria-label="Previous month">‹</button>
+        <h2 id="mt"></h2>
+        <button class="btn ghost" id="next" aria-label="Next month">›</button>
+      </div>
+      <div class="dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      <div class="days" id="days"></div>
+    </section>
+    <section class="card" aria-label="Events">
+      <h2 id="lt">Upcoming</h2>
+      <div id="list"></div>
+    </section>
+  </div>
+</div>
+
+<!-- Event dialog -->
+<dialog id="evd">
+  <form id="evf" method="dialog">
+    <h2 id="evTitle">New event</h2>
+    <label>Event name<input id="f_title" required placeholder="e.g. Ali & Sara – Mehndi"></label>
+    <div class="two">
+      <label>Type<select id="f_type"><option>Mehndi</option><option>Haldi</option><option>Barat</option><option>Walima</option><option>Nikah</option><option>Other</option></select></label>
+      <label>Date<input id="f_date" type="date" required></label>
+    </div>
+    <div class="two">
+      <label>Time<input id="f_time" type="time"></label>
+      <label>Venue<input id="f_venue" placeholder="Hall / address"></label>
+    </div>
+    <div class="two">
+      <label>Client name<input id="f_client"></label>
+      <label>Phone<input id="f_phone" type="tel"></label>
+    </div>
+    <div class="two">
+      <label>Total booking (PKR)<input id="f_amount" type="number" min="0"></label>
+      <label>Advance received (PKR)<input id="f_adv" type="number" min="0"></label>
+    </div>
+    <label>Remind me before<select id="f_rem"><option value="0">Same day only</option><option value="1" selected>1 day before</option><option value="2">2 days before</option><option value="3">3 days before</option><option value="7">1 week before</option></select></label>
+    <div id="multi">
+      <label>Isi booking ke aur functions (jaise Barat, Walima)</label>
+      <div id="extraList"></div>
+      <div class="row" style="margin-top:6px"><button type="button" class="btn ghost" id="extraAdd">+ Add another function</button></div>
+      <p class="help">Sab ek saath save honge. Har function ka alag amount daal sakte ho (optional). Advance pehle function me count hoga. Checklist har function ki alag badal sakte ho.</p>
+    </div>
+    <div>
+      <label>Kya kya chahiye (checklist)</label>
+      <div id="gearList"></div>
+      <div class="row" style="margin-top:6px"><input id="gearNew" placeholder="Add item (e.g. Drone)" style="flex:1"><button type="button" class="btn ghost" id="gearAdd">Add</button></div>
+    </div>
+    <label>Notes<textarea id="f_notes" rows="3" placeholder="Shots list, timing, family details…"></textarea></label>
+    <div class="row" style="justify-content:space-between">
+      <button type="button" class="btn danger" id="delBtn">Delete</button>
+      <div class="row"><button type="button" class="btn ghost" id="cancelBtn">Cancel</button><button class="btn" id="saveBtn" type="submit">Save event</button></div>
+    </div>
+  </form>
+</dialog>
+
+<!-- GitHub dialog -->
+<dialog id="ghd">
+  <form id="ghf" method="dialog">
+    <h2>GitHub auto-save</h2>
+    <p class="help">Data ek JSON file me GitHub repo ke andar save hota hai. Token sirf is browser me rehta hai. Token banane ke liye: GitHub → Settings → Developer settings → Fine-grained token → us repo ko choose karo → <code>Contents: Read and write</code>.</p>
+    <div class="two">
+      <label>Username<input id="g_owner" placeholder="your-username"></label>
+      <label>Repo name<input id="g_repo" placeholder="shaadi-planner"></label>
+    </div>
+    <div class="two">
+      <label>Branch<input id="g_branch" value="main"></label>
+      <label>File path<input id="g_path" value="data/events.json"></label>
+    </div>
+    <label>Access token<input id="g_token" type="password" autocomplete="off" placeholder="github_pat_…"></label>
+    <div class="row" style="justify-content:flex-end">
+      <button type="button" class="btn ghost" id="ghClear">Disconnect</button>
+      <button type="button" class="btn ghost" id="ghClose">Close</button>
+      <button class="btn" type="submit">Connect &amp; sync</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const DEFAULT_GEAR=['Camera body','Lenses','Batteries charged','Memory cards','Flash / lights','Gimbal','Tripod'];
+const EM={Mehndi:'🌿',Haldi:'🌼',Barat:'🐎',Walima:'🍽️',Nikah:'💍',Other:'📸'};
+let events=[], gh=JSON.parse(localStorage.getItem('sp_gh')||'null'), sha=null, editId=null, gearTmp=[];
+let view=new Date(); view.setDate(1); let selDate=ymd(new Date());
+let remindersOn=localStorage.getItem('sp_rem')!=='off';
+
+/* ---------- storage + GitHub ---------- */
+const b64e=s=>btoa(unescape(encodeURIComponent(s)));
+const b64d=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+function setSync(t,c){const e=$('sync');e.textContent=t;e.className='pill '+(c||'')}
+function ghUrl(){return `https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/${gh.path}`}
+function ghHead(){return {'Authorization':'Bearer '+gh.token,'Accept':'application/vnd.github+json'}}
+async function ghLoad(){
+  setSync('Loading…');
+  const r=await fetch(ghUrl()+'?ref='+encodeURIComponent(gh.branch)+'&t='+Date.now(),{headers:ghHead(),cache:'no-store'});
+  if(r.status===404){sha=null;await ghSave();return}
+  if(!r.ok)throw new Error('GitHub '+r.status+' – token/repo check karo');
+  const j=await r.json(); sha=j.sha;
+  const data=JSON.parse(b64d(j.content)||'{"events":[]}');
+  events=data.events||[]; localStorage.setItem('sp_events',JSON.stringify(events));
+  setSync('Synced with GitHub','ok');
+}
+let timer=null;
+function persist(){
+  localStorage.setItem('sp_events',JSON.stringify(events));
+  if(!gh)return;
+  setSync('Saving…'); clearTimeout(timer); timer=setTimeout(()=>ghSave().catch(e=>setSync('Save failed','err')||console.error(e)),700);
+}
+async function ghSave(){
+  const body={message:'Update events '+new Date().toISOString(),content:b64e(JSON.stringify({events,updated:new Date().toISOString()},null,2)),branch:gh.branch};
+  if(sha)body.sha=sha;
+  let r=await fetch(ghUrl(),{method:'PUT',headers:{...ghHead(),'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(r.status===409||r.status===422){ // stale sha: refetch and retry once
+    const g=await fetch(ghUrl()+'?ref='+encodeURIComponent(gh.branch)+'&t='+Date.now(),{headers:ghHead(),cache:'no-store'});
+    if(g.ok){body.sha=(await g.json()).sha;r=await fetch(ghUrl(),{method:'PUT',headers:{...ghHead(),'Content-Type':'application/json'},body:JSON.stringify(body)})}
+  }
+  if(!r.ok)throw new Error('Save '+r.status);
+  sha=(await r.json()).content.sha; setSync('Saved to GitHub','ok');
+}
+
+/* ---------- calendar + list ---------- */
+const byDate=d=>events.filter(e=>e.date===d).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+function daysLeft(d){const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(d+'T00:00:00')-t)/864e5)}
+function cdText(n){return n===0?'Aaj':n===1?'Kal':n>1?n+' din baaki':Math.abs(n)+' din pehle'}
+function renderCal(){
+  $('mt').textContent=view.toLocaleString('en',{month:'long',year:'numeric'});
+  const first=view.getDay(), total=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+  let h='';
+  for(let i=0;i<42;i++){
+    const d=new Date(view.getFullYear(),view.getMonth(),1-first+i), s=ymd(d);
+    if(i>=35&&d.getMonth()!==view.getMonth())break;
+    const evs=byDate(s);
+    h+=`<button class="day ${evs.length?'has':''} ${d.getMonth()!==view.getMonth()?'out':''} ${s===ymd(new Date())?'today':''} ${s===selDate?'sel':''}" data-d="${s}" aria-label="${s}, ${evs.length} events"><b>${d.getDate()}</b>${evs.slice(0,2).map(e=>`<span class="tag" title="${esc(e.type)}">${EM[e.type]}</span>`).join('')}${evs.length>2?`<span class="tag more">+${evs.length-2}</span>`:''}</button>`;
+  }
+  $('days').innerHTML=h;
+}
+function evCard(e){
+  const g=e.gear||[], done=g.filter(x=>x.d).length, due=Math.max(0,(+e.amount||0)-(+e.advance||0));
+  return `<article class="ev c-${e.type}" data-id="${e.id}" tabindex="0"><span class="cd">${cdText(daysLeft(e.date))}</span><h3>${EM[e.type]} ${esc(e.title)}</h3><small>${esc(e.type)} · ${e.date}${e.time?' · '+e.time:''}${e.venue?' · '+esc(e.venue):''}</small><br><small>${g.length?`Checklist ${done}/${g.length}`:''}${e.amount?` · Baaki Rs ${due.toLocaleString()}`:''}</small></article>`;
+}
+function renderList(){
+  const today=ymd(new Date());
+  const day=byDate(selDate);
+  let h=`<p class="sec">${selDate}</p>`+(day.length?day.map(evCard).join(''):`<p class="empty">Is din koi event nahi. “+ New event” dabao.</p>`);
+  const up=events.filter(e=>e.date>=today&&e.date!==selDate).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||'')).slice(0,6);
+  if(up.length)h+=`<p class="sec">Upcoming</p>`+up.map(evCard).join('');
+  $('list').innerHTML=h; $('lt').textContent='Events';
+}
+function renderHero(){
+  const t=ymd(new Date()), n=events.filter(e=>e.date>=t).sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||''))[0];
+  $('hero').innerHTML=n?`<section class="hero" aria-label="Next event"><div class="num">${daysLeft(n.date)<2?cdText(daysLeft(n.date)):daysLeft(n.date)}<small>${daysLeft(n.date)<2?'':'din baaki'}</small></div><div><h2>${esc(n.title)}</h2><p>${n.date}${n.time?' · '+n.time:''}${n.venue?' · '+esc(n.venue):''}</p></div><div class="em">${EM[n.type]}</div></section>`:`<section class="hero"><div><h2>Koi event nahi abhi</h2><p>Pehla event add karo aur kaam shuru.</p></div><div class="em">📸</div></section>`;
+}
+function confetti(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const a=['🎉','🌼','✨','💖','🌿','🪔'];for(let i=0;i<26;i++){const e=document.createElement('span');e.className='pop';e.textContent=a[i%a.length];e.style.left=Math.random()*100+'vw';e.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),2400)}}
+function render(){renderCal();renderList();renderAlerts();renderHero()}
+
+/* ---------- reminders ---------- */
+function dueEvents(){return remindersOn?events.filter(e=>{const n=daysLeft(e.date);return n>=0&&n<=(+e.rem||0)}).sort((a,b)=>a.date.localeCompare(b.date)):[]}
+function renderAlerts(){
+  const d=dueEvents();
+  $('alerts').innerHTML=d.length?`<div class="alert" role="status">${d.map(e=>`<div>${cdText(daysLeft(e.date))}: ${esc(e.title)}${e.time?' at '+e.time:''}${e.venue?' – '+esc(e.venue):''}</div>`).join('')}</div>`:'';
+  $('bell').textContent=remindersOn?'Reminders on':'Reminders off';
+}
+function notifyDue(){
+  if(!remindersOn||!('Notification' in window)||Notification.permission!=='granted')return;
+  const key='sp_n_'+ymd(new Date()), seen=JSON.parse(localStorage.getItem(key)||'[]');
+  dueEvents().forEach(e=>{if(!seen.includes(e.id)){new Notification(cdText(daysLeft(e.date))+': '+e.title,{body:(e.venue||'')+(e.time?' · '+e.time:'')});seen.push(e.id)}});
+  localStorage.setItem(key,JSON.stringify(seen));
+}
+
+/* ---------- event dialog ---------- */
+function gearHtml(){
+  $('gearList').innerHTML=gearTmp.map((g,i)=>`<div class="gear ${g.d?'done':''}"><input type="checkbox" data-i="${i}" ${g.d?'checked':''} aria-label="${esc(g.t)}"><span>${esc(g.t)}</span><button type="button" class="x" data-x="${i}" aria-label="Remove ${esc(g.t)}">×</button></div>`).join('');
+}
+function openEvent(id,date){
+  editId=id||null; const e=id?events.find(x=>x.id===id):null;
+  $('evTitle').textContent=e?'Edit event':'New event';
+  $('f_title').value=e?.title||''; $('f_type').value=e?.type||'Mehndi'; $('f_date').value=e?.date||date||selDate;
+  $('f_time').value=e?.time||''; $('f_venue').value=e?.venue||''; $('f_client').value=e?.client||''; $('f_phone').value=e?.phone||'';
+  $('f_amount').value=e?.amount||''; $('f_adv').value=e?.advance||''; $('f_rem').value=e?.rem??1; $('f_notes').value=e?.notes||'';
+  gearTmp=e?JSON.parse(JSON.stringify(e.gear||[])):DEFAULT_GEAR.map(t=>({t,d:false}));
+  $('delBtn').style.display=e?'':'none'; extras=[]; extraHtml(); $('multi').style.display=e?'none':''; gearHtml(); $('evd').showModal();
+}
+$('gearList').addEventListener('click',e=>{const i=e.target.dataset.x;if(i!==undefined){gearTmp.splice(+i,1);gearHtml()}});
+$('gearList').addEventListener('change',e=>{const i=e.target.dataset.i;if(i!==undefined){gearTmp[+i].d=e.target.checked;gearHtml()}});
+function addGear(){const v=$('gearNew').value.trim();if(v){gearTmp.push({t:v,d:false});$('gearNew').value='';gearHtml()}}
+$('gearAdd').onclick=addGear;
+const TYPES=['Mehndi','Haldi','Barat','Nikah','Walima','Other']; let extras=[];
+function extraHtml(){
+  $('extraList').innerHTML=extras.map((x,i)=>{
+    const g=x.gear;
+    const items=g?g.map((it,j)=>`<div class="gear"><span>${esc(it.t)}</span><button type="button" class="x" data-gx="${i}:${j}" aria-label="Remove ${esc(it.t)}">×</button></div>`).join('')+`<div class="row" style="margin-top:6px"><input data-gn="${i}" placeholder="Add item" style="flex:1"><button type="button" class="btn ghost" data-ga="${i}">Add</button><button type="button" class="btn ghost" data-gr="${i}">Main jaisi</button></div>`:'';
+    return `<div class="xbox"><div class="xrow"><select data-k="type" data-i="${i}" aria-label="Function type">${TYPES.map(t=>`<option ${t===x.type?'selected':''}>${t}</option>`).join('')}</select><input type="date" data-k="date" data-i="${i}" value="${x.date}" required aria-label="Date"><input type="time" data-k="time" data-i="${i}" value="${x.time}" aria-label="Time"><input type="number" min="0" data-k="amount" data-i="${i}" value="${x.amount}" placeholder="Amount" aria-label="Amount"><button type="button" class="x" data-r="${i}" aria-label="Remove function">×</button></div><details data-i="${i}" ${x.open?'open':''}><summary>Checklist: ${g?'custom ('+g.length+' items)':'same as main'} – badalne ke liye kholo</summary>${items}</details></div>`;
+  }).join('');
+}
+$('extraAdd').onclick=()=>{
+  const last=extras.length?extras[extras.length-1]:{type:$('f_type').value,date:$('f_date').value||selDate};
+  const d=new Date((last.date||selDate)+'T00:00:00'); d.setDate(d.getDate()+1);
+  const nt=TYPES[Math.min(TYPES.indexOf(last.type)+1,TYPES.length-1)];
+  extras.push({type:nt,date:ymd(d),time:$('f_time').value,amount:'',gear:null,open:false}); extraHtml();
+};
+$('extraList').addEventListener('input',e=>{const t=e.target;if(t.dataset.k)extras[+t.dataset.i][t.dataset.k]=t.value});
+$('extraList').addEventListener('toggle',e=>{const d=e.target,x=extras[+d.dataset.i];if(d.tagName!=='DETAILS'||!x)return;x.open=d.open;if(d.open&&!x.gear){x.gear=gearTmp.map(g=>({t:g.t,d:false}));extraHtml()}},true);
+$('extraList').addEventListener('click',e=>{const t=e.target,D=t.dataset;
+  if(D.r!==undefined){extras.splice(+D.r,1);extraHtml()}
+  else if(D.gx){const[i,j]=D.gx.split(':').map(Number);extras[i].gear.splice(j,1);extraHtml()}
+  else if(D.ga!==undefined){const v=t.parentElement.querySelector('input').value.trim();if(v){extras[+D.ga].gear.push({t:v,d:false});extraHtml()}}
+  else if(D.gr!==undefined){const x=extras[+D.gr];x.gear=null;x.open=false;extraHtml()}
+});
+$('extraList').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.gn!==undefined){e.preventDefault();e.target.nextElementSibling.click()}});
+$('gearNew').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addGear()}});
+$('evf').addEventListener('submit',()=>{
+  const o={id:editId||'e'+Date.now(),title:$('f_title').value.trim(),type:$('f_type').value,date:$('f_date').value,time:$('f_time').value,venue:$('f_venue').value.trim(),client:$('f_client').value.trim(),phone:$('f_phone').value.trim(),amount:+$('f_amount').value||0,advance:+$('f_adv').value||0,rem:+$('f_rem').value,notes:$('f_notes').value.trim(),gear:gearTmp};
+  if(editId)events=events.map(x=>x.id===editId?o:x);else{events.push(o);const base=o.title.replace(/\s*[–-]\s*(Mehndi|Haldi|Barat|Walima|Nikah|Other)\s*$/i,'');extras.filter(x=>x.date).forEach((x,i)=>events.push({...o,id:o.id+'x'+i,type:x.type,date:x.date,time:x.time,title:base+' – '+x.type,amount:+x.amount||0,advance:0,gear:(x.gear||o.gear).map(g=>({t:g.t,d:false}))}))}
+  selDate=o.date; view=new Date(o.date+'T00:00:00'); view.setDate(1);
+  persist(); render(); confetti();
+});
+$('cancelBtn').onclick=()=>$('evd').close();
+$('delBtn').onclick=()=>{if(confirm('Ye event delete karna hai?')){events=events.filter(x=>x.id!==editId);persist();render();$('evd').close()}};
+$('addBtn').onclick=()=>openEvent();
+
+/* ---------- wiring ---------- */
+$('days').addEventListener('click',e=>{const b=e.target.closest('.day');if(!b)return;selDate=b.dataset.d;const d=new Date(selDate+'T00:00:00');if(d.getMonth()!==view.getMonth()){view=new Date(d.getFullYear(),d.getMonth(),1)}render()});
+$('days').addEventListener('dblclick',e=>{const b=e.target.closest('.day');if(b)openEvent(null,b.dataset.d)});
+$('list').addEventListener('click',e=>{const a=e.target.closest('.ev');if(a)openEvent(a.dataset.id)});
+$('list').addEventListener('keydown',e=>{if(e.key==='Enter'){const a=e.target.closest('.ev');if(a)openEvent(a.dataset.id)}});
+$('prev').onclick=()=>{view.setMonth(view.getMonth()-1);renderCal()};
+$('next').onclick=()=>{view.setMonth(view.getMonth()+1);renderCal()};
+$('bell').onclick=async()=>{
+  remindersOn=!remindersOn; localStorage.setItem('sp_rem',remindersOn?'on':'off');
+  if(remindersOn&&'Notification' in window&&Notification.permission==='default')await Notification.requestPermission();
+  renderAlerts(); notifyDue();
+};
+$('setBtn').onclick=()=>{
+  $('g_owner').value=gh?.owner||'';$('g_repo').value=gh?.repo||'';$('g_branch').value=gh?.branch||'main';$('g_path').value=gh?.path||'data/events.json';$('g_token').value=gh?.token||'';
+  $('ghd').showModal();
+};
+$('ghClose').onclick=()=>$('ghd').close();
+$('ghClear').onclick=()=>{gh=null;sha=null;localStorage.removeItem('sp_gh');setSync('Local only');$('ghd').close()};
+$('ghf').addEventListener('submit',async()=>{
+  gh={owner:$('g_owner').value.trim(),repo:$('g_repo').value.trim(),branch:$('g_branch').value.trim()||'main',path:$('g_path').value.trim()||'data/events.json',token:$('g_token').value.trim()};
+  localStorage.setItem('sp_gh',JSON.stringify(gh));
+  try{
+    // if local has data and remote is empty/new, local gets pushed; otherwise remote is loaded
+    const local=events.slice();
+    await ghLoad();
+    if(!events.length&&local.length){events=local;await ghSave()}
+    render();
+  }catch(e){setSync('GitHub error','err');alert(e.message)}
+});
+
+/* ---------- init ---------- */
+(async function(){
+  events=JSON.parse(localStorage.getItem('sp_events')||'[]');
+  render();
+  if(gh){try{await ghLoad();render()}catch(e){setSync('GitHub error','err');console.error(e)}}
+  notifyDue(); setInterval(()=>{render();notifyDue()},60000);
+})();
+</script>
+</body>
+</html>
